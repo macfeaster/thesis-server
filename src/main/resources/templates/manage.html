@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" th:replace="layout :: layout(~{::title},~{::script},~{::#main})">
+<head>
+    <title>Manage</title>
+    <script type="text/javascript"></script>
+</head>
+<body>
+
+<div id="main">
+
+    <h3>Welcome!</h3>
+    <p>
+        Logged in as Tink user ID <span th:text="${user.id}"></span>
+    </p>
+
+    <p>
+        Get started by adding a <em>credential</em>, i.e. a bank, credit card or other financial institution connection.
+    </p>
+
+    <div th:if="${param.saved_tx}"
+         th:text="${'Saved ' + param.saved_tx + ' transactions without identifying information. Thank you!'}"
+         class="alert alert-success"></div>
+
+    <div class="text-center py-3">
+        <a class="btn btn-lg btn-lax" th:href="@{/manage/add}">Add Credential</a>
+    </div>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Bank</th>
+            <th>Status</th>
+            <th>Message</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="credential : ${credentials}">
+            <td>
+                <span th:text="${credential.providerName}"></span><br />
+                <small class="text-muted" th:text="${credential.id}"></small>
+            </td>
+            <td th:text="${credential.status}"></td>
+            <td th:text="${credential.statusPayload}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+</body>
+</html>
