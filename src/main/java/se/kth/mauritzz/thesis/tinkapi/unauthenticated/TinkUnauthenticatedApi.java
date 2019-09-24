@@ -38,7 +38,7 @@ public class TinkUnauthenticatedApi extends ApiBinding {
             body.add("client_id", config.getClientId());
             body.add("client_secret", config.getClientSecret());
             body.add("grant_type", "client_credentials");
-            body.add("scope", "accounts:read,accounts:write,credentials:read,credentials:refresh,credentials:write,settings:read,statistics:read,transactions:read,user:read,user:write,properties:read,properties:write,providers:read,user:create,user:delete,user:password:reset,authorization:read,authorization:grant,authorization:revoke");
+            body.add("scope", "accounts:read,credentials:read,credentials:refresh,credentials:write,transactions:read,user:read,user:write,providers:read,user:create,user:delete,authorization:read,authorization:grant,authorization:revoke");
 
             cachedToken = postForm(API_URL + "oauth/token", body, TokenResponse.class);
             logger.info("Acquired new client_credentials access_token {} expiring {}", cachedToken.getTokenPart(), cachedToken.getExpires());
