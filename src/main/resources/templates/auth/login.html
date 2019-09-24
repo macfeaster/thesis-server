@@ -152,13 +152,17 @@
     <form th:action="@{/login}" class="row" method="POST">
         <div class="col-1"></div>
         <label class="col-2 col-form-label text-right" for="username">User ID:</label>
-        <input class="form-control col-5" id="username" type="text" name="username"/>
+        <input class="form-control col-5" id="username" type="text" th:value="${uid}" name="username"/>
         <input type="hidden" name="password" value="thesis"/>
 
         <div class="col-3">
             <input class="btn btn-lax" type="submit" name="submit" value="Login"/>
         </div>
     </form>
+
+    <div class="text-muted py-2 text-center">
+        <small>This User ID is saved as a cookie in your browser, for your convenience.</small>
+    </div>
 
 </div>
 

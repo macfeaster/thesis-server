@@ -7,14 +7,18 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import se.kth.mauritzz.thesis.models.entities.User;
 import se.kth.mauritzz.thesis.models.repositories.UserRepository;
-import se.kth.mauritzz.thesis.tinkapi.TinkApi;
 import se.kth.mauritzz.thesis.tinkapi.unauthenticated.TinkUnauthenticatedApi;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import static org.springframework.security.web.context.HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY;
 
@@ -27,20 +31,26 @@ public class AuthController {
     private final UserRepository userRepository;
     private final AuthenticationManager authManager;
 
+    @RequestMapping("/")
+    public String index() {
+        return "redirect:/manage";
+    }
+
     @GetMapping("/login")
-    public String login() {
+    public String login(@CookieValue(value = "uid", defaultValue = "") String uid, Model model) {
+        model.addAttribute("uid", uid);
         return "auth/login";
     }
 
     @PostMapping("/create")
-    public Object doCreate(HttpServletRequest request) {
+    public Object doCreate(HttpServletRequest request, HttpServletResponse response) {
         final var user = apiUnauthenticated.createUser();
-        final var token = apiUnauthenticated.authenticateUser(user);
+        // final var token = apiUnauthenticated.authenticateUser(user);
         userRepository.save(user);
 
-        TinkApi api = new TinkApi(token.getAccessToken());
-        final var tinkUser = api.getUser();
-        tinkUser.getFlags().remove("TEMPORARY");
+        // TinkApi api = new TinkApi(token.getAccessToken());
+        // final var tinkUser = api.getUser();
+        // tinkUser.getFlags().add("BYPASS_PROVIDER_FILTERING");
         // logger.info("{}", api.updateUser(tinkUser));
 
         var authReq = new UsernamePasswordAuthenticationToken(user, User.PASSWORD);
@@ -52,7 +62,10 @@ public class AuthController {
         var session = request.getSession(true);
         session.setAttribute(SPRING_SECURITY_CONTEXT_KEY, sc);
 
-        return "redirect:/welcome";
+        var cookie = new Cookie("uid", user.getId());
+        response.addCookie(cookie);
+
+        return "redirect:/manage";
     }
 
 }
