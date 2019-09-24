@@ -1,9 +1,3 @@
-* {
-    -webkit-transition:all .25s ease-in;
-    -o-transition:all .25s ease-in;
-    transition:all .25s ease-in;
-}
-
 body {
     font-family: "Open Sans", sans-serif;
     background: #f5f8f9;
@@ -16,10 +10,15 @@ body {
     border-radius: 15px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, .1);
     margin-top: 50px;
+    margin-bottom: 50px;
 }
 
 .btn {
     border-radius: 0;
+}
+
+.lax {
+    color: #F89572;
 }
 
 .btn-lax {
@@ -32,6 +31,23 @@ body {
 
 .btn-lax:hover, .btn-lax:focus {
     background: #F89572;
-    box-shadow: 0 4px 15px #dbc4c1;
+    box-shadow: 0 2px 5px #dbc4c1;
     color: #fff;
+}
+
+h4 {
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #004650;
+}
+
+#footer {
+    text-align: center;
+    max-width: 500px;
+    margin: 0 auto;
+    margin-bottom: 25px;
+}
+
+#footer a {
+    color: #004650;
 }

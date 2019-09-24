@@ -1,24 +1,163 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en" th:replace="layout :: layout(~{::title},~{::script},~{::#main})">
 <head>
-    <title>Login</title>
+    <title>Mauritz's Master's Thesis</title>
     <script type="text/javascript"></script>
 </head>
 <body>
 
 <div id="main">
 
-    <form th:action="@{/login}" method="POST">
+    <div class="text-center py-2">
+        <img class="rounded-circle"
+             src="https://avatars.slack-edge.com/2019-04-08/604855500582_42228d03a105b1dc78c8_192.jpg" width="150"
+             alt="Mauritz Zachrisson"/>
+    </div>
 
-        <input type="text" name="username"/>
-        <input type="hidden" name="password" value="thesis"/>
+    <div class="text-center">
+        <h1 style="font-weight:bold;" class="lax">Hi!</h1>
+    </div>
 
-        <input type="submit" name="submit" value="Login"/>
+    <p>
+        <strong>
+            My name is Mauritz Zachrisson and I've been working in Tink's Integration team this April.
+            This fall I'm doing my master's thesis in Computer Science in Tink's Processing team, on transaction
+            deduplication.
+        </strong>
+    </p>
 
+    <h4>What am I doing?</h4>
+
+    <p>
+        When we fetch transactions from banks, we get the same transactions over and over again, and they rarely have
+        good ID numbers. This means that in order to determine which transactions we have <em>already saved in our
+        database</em>, we have to look at the <em>contents</em> of the transactions to determine which of them are the
+        same/duplicates. This is the process that I'm investigating possible ways to improve. A typical bank transaction
+        that we get can look like this:
+    </p>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Date</th>
+            <th>Description</th>
+            <th>Amount</th>
+            <th>Pending</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>2019-09-24</td>
+            <td>Prel ICA MALL OF SC</td>
+            <td>-434.79</td>
+            <td>true</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <p>
+        To make things harder, sometimes descriptions, dates and even amounts change when a transaction goes from
+        pending (reservation) to booked (purchase.)
+    </p>
+
+    <h4>I need your help!</h4>
+
+    <p>
+        Under the Swedish Freedom of Information Act (Offentlighetsprincipen), master theses written at Swedish
+        universities are part of the public domain. This means that I can't use any of Tink's production data to make
+        tests during my investigation, because someone may request access to the thesis's data to reproduce it in the
+        future. Because of this, I need <strong>your help!</strong>
+    </p>
+
+    <p>
+        With your permission, I would like to fetch your transactions <strong>anonymously</strong> to be able to conduct
+        tests to improve Tink's deduplication technology.
+    </p>
+
+    <h4>What is collected and where?</h4>
+
+    <p>
+        Tink collects the same data as it would if you used the Tink App. All your identifying information – SSNs,
+        account numbers, bank names, etc – is stored only within Tink's infrastructure. <strong>This
+        application</strong> (which is separate from Tink, but uses Tink's technology) then fetches
+        <strong>only</strong> the transactions for all registered users, but <strong>not</strong> which user they belong
+        to, what bank they come from or what account number they came from.
+    </p>
+    <p>
+        <em>However,</em> it is necessary to know which transactions come from the same account, even if no identifying
+        information about that account is needed. The resulting data fetched by me, and used in the thesis, looks like
+        this:
+    </p>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Account ID</th>
+            <th>Date</th>
+            <th>Description</th>
+            <th>Amount</th>
+            <th>Pending</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><small>7a4b4135a4834d6d81b7f59b73691789</small></td>
+            <td>2019-09-22</td>
+            <td>KICKS 972 GALLERIAN STOCKHOLM</td>
+            <td>-419.60</td>
+            <td>false</td>
+        </tr>
+        <tr>
+            <td><small>7a4b4135a4834d6d81b7f59b73691789</small></td>
+            <td>2019-08-11</td>
+            <td>LORIEN ENTERPRISES LIMI DUBLIN 2</td>
+            <td>-493.91</td>
+            <td>false</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>How does it work?</h4>
+
+    <ul>
+        <li>When you click the Create User button below, an anonymous user ID is generated</li>
+        <li>This ID is the only way to identify you, and you can use it to add and check your credentials</li>
+        <li>Every day, this application tries to refresh transactions for all users, and saves them in a database, in
+            the format described above
+        </li>
+    </ul>
+
+    <p class="text-muted">
+        By creating a User, you agree to financial data from any bank connections you add being aggregated and stored by
+        Tink. You agree that Tink and Mauritz Zachrisson fetch your transactions for usage in Mauritz's master's thesis,
+        and that your anonymous transactions may be published or requested by others outside of Tink under the Swedish
+        Freedom of Information Act (Offentlighetsprincipen) together with other participants' transactions.
+    </p>
+
+    <form th:action="@{/create}" class="text-center py-3" method="POST">
+        <input type="submit" name="submit" value="I agree. Create User" class="btn btn-lax"/>
     </form>
 
-    <form th:action="@{/create}" method="POST">
-        <input type="submit" name="submit" value="Create User"/>
+    <p>
+        Don't hesitate to reach out to me if you encounter any questions or issues. If you're tech savvy, feel free to
+        review the <a href="https://github.com/macfeaster/thesis-server" target="_blank">souce code</a> for this
+        application.
+    </p>
+
+    <hr/>
+
+    <p>If you have used this application before, you can check the status of your connections by providing the User ID
+        generated when you signed up:</p>
+
+    <form th:action="@{/login}" class="row" method="POST">
+        <div class="col-1"></div>
+        <label class="col-2 col-form-label text-right" for="username">User ID:</label>
+        <input class="form-control col-5" id="username" type="text" name="username"/>
+        <input type="hidden" name="password" value="thesis"/>
+
+        <div class="col-3">
+            <input class="btn btn-lax" type="submit" name="submit" value="Login"/>
+        </div>
     </form>
 
 </div>
