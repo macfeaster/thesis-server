@@ -25,33 +25,29 @@ public abstract class ApiBinding {
             restTemplate.getInterceptors().add(getBearerTokenInterceptor(accessToken));
         }
 
-        restTemplate.getInterceptors().add(setJsonIfBodyWithoutType());
+        restTemplate.getInterceptors().add(setJsonTypeUnlessSpecified());
         restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
         restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
     }
 
     private ClientHttpRequestInterceptor getBearerTokenInterceptor(String accessToken) {
         return (request, bytes, execution) -> {
-            request.getHeaders().setAccept(List.of(MediaType.APPLICATION_JSON));
             request.getHeaders().setBearerAuth(accessToken);
             return execution.execute(request, bytes);
         };
     }
 
-    private ClientHttpRequestInterceptor setJsonIfBodyWithoutType() {
+    private ClientHttpRequestInterceptor setJsonTypeUnlessSpecified() {
         return (request, body, execution) -> {
+            if (request.getHeaders().getAccept().isEmpty()) {
+                request.getHeaders().setAccept(List.of(MediaType.APPLICATION_JSON));
+            }
+
             if (request.getMethod() == HttpMethod.POST && request.getHeaders().getContentType() == null) {
                 request.getHeaders().setContentType(MediaType.APPLICATION_JSON);
             }
 
             return execution.execute(request, body);
-        };
-    }
-
-    private ClientHttpRequestInterceptor getNoTokenInterceptor() {
-        return (request, bytes, execution) -> {
-            throw new IllegalStateException(
-                    "Can't access the API without an access token");
         };
     }
 

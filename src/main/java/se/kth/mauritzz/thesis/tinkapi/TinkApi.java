@@ -5,13 +5,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import se.kth.mauritzz.thesis.models.entities.Transaction;
+import se.kth.mauritzz.thesis.tinkapi.entity.Credential;
 import se.kth.mauritzz.thesis.tinkapi.provider.ProviderRepository;
 import se.kth.mauritzz.thesis.tinkapi.provider.rpc.ProviderList;
 import se.kth.mauritzz.thesis.tinkapi.provider.rpc.entity.TransactionEntity;
+import se.kth.mauritzz.thesis.tinkapi.rpc.AddSupplementalRequest;
 import se.kth.mauritzz.thesis.tinkapi.rpc.CreateCredentialRequest;
 import se.kth.mauritzz.thesis.tinkapi.rpc.CredentialList;
 import se.kth.mauritzz.thesis.tinkapi.rpc.User;
-import se.kth.mauritzz.thesis.tinkapi.rpc.entity.Credential;
 
 import java.util.Arrays;
 import java.util.List;
@@ -68,5 +69,17 @@ public class TinkApi extends ApiBinding {
                 .stream()
                 .map(TransactionEntity::toPersistence)
                 .collect(Collectors.toList());
+    }
+
+    public void refreshCredential(String id) {
+        restTemplate.postForObject(API_URL + "credentials/" + id + "/refresh", null, String.class);
+    }
+
+    public void addSupplemental(String id, AddSupplementalRequest request) {
+        restTemplate.postForObject(API_URL + "credentials/" + id + "/supplemental-information", request, String.class);
+    }
+
+    public void deleteCredential(String id) {
+        restTemplate.delete(API_URL + "credentials/" + id);
     }
 }

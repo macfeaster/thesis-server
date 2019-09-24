@@ -21,6 +21,10 @@
          th:text="${'Saved ' + param.saved_tx + ' transactions without identifying information. Thank you!'}"
          class="alert alert-success"></div>
 
+    <div th:if="${param.deleted}"
+         th:text="${'Deleted credential with ID ' + param.deleted}"
+         class="alert alert-success"></div>
+
     <div class="text-center py-3">
         <a class="btn btn-lg btn-lax" th:href="@{/manage/add}">Add Credential</a>
     </div>
@@ -41,9 +45,30 @@
             </td>
             <td th:text="${credential.status}"></td>
             <td th:text="${credential.statusPayload}"></td>
+            <td>
+                <a class="btn btn-lax btn-sm" th:href="@{/manage/refresh/{id}(id=${credential.id})}">Refresh</a>
+            </td>
+            <td>
+                <a class="btn btn-danger btn-sm"
+                   onclick="return confirm('Are you sure? This will stop new refreshes, but will not delete already stored transactions.');"
+                   th:href="@{/manage/delete/{id}(id=${credential.id})}">X</a>
+            </td>
+        </tr>
+        <tr th:if="${#lists.size(credentials) == 0}">
+            <td colspan="4" class="py-5 text-center">
+                <h5 class="text-muted">No connections. Add one!</h5>
+            </td>
         </tr>
         </tbody>
     </table>
+
+    <hr />
+
+    <div class="text-center py-2">
+        <form th:action="@{/logout}" method="POST">
+            <button type="submit" class="btn btn-lax btn-sm">Log out</button>
+        </form>
+    </div>
 
 </div>
 
