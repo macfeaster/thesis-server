@@ -15,7 +15,7 @@ import java.util.List;
 
 public abstract class ApiBinding {
 
-    protected static final String API_URL = "https://main.staging.oxford.tink.se/api/v1/";
+    protected static final String API_URL = "https://api.tink.se/api/v1/";
     protected RestTemplate restTemplate;
 
     public ApiBinding(String accessToken) {
