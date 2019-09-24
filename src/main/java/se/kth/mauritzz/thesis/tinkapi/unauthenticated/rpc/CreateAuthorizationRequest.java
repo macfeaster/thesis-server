@@ -8,7 +8,7 @@ import se.kth.mauritzz.thesis.annotations.JsonObject;
 @Getter
 public class CreateAuthorizationRequest {
 
-    private final String scope = "accounts:read,accounts:write,credentials:read,credentials:refresh,credentials:write,transactions:read,user:read,providers:read";
+    private final String scope = "accounts:read,credentials:read,credentials:refresh,credentials:write,transactions:read,user:read,providers:read";
 
     @JsonProperty("user_id")
     private String userId;
