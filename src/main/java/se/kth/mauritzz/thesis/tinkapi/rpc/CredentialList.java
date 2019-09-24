@@ -1,7 +1,7 @@
 package se.kth.mauritzz.thesis.tinkapi.rpc;
 
 import se.kth.mauritzz.thesis.annotations.JsonObject;
-import se.kth.mauritzz.thesis.tinkapi.rpc.entity.Credential;
+import se.kth.mauritzz.thesis.tinkapi.entity.Credential;
 
 import java.util.List;
 import java.util.Optional;

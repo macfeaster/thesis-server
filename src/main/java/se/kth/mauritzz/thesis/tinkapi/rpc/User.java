@@ -3,7 +3,7 @@ package se.kth.mauritzz.thesis.tinkapi.rpc;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import se.kth.mauritzz.thesis.annotations.JsonObject;
-import se.kth.mauritzz.thesis.tinkapi.rpc.entity.Profile;
+import se.kth.mauritzz.thesis.tinkapi.entity.Profile;
 
 import java.util.List;
 

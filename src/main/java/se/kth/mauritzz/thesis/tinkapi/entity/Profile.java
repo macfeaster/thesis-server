@@ -1,4 +1,4 @@
-package se.kth.mauritzz.thesis.tinkapi.rpc.entity;
+package se.kth.mauritzz.thesis.tinkapi.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

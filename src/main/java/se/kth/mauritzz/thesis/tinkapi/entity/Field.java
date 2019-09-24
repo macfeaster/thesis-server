@@ -1,11 +1,13 @@
-package se.kth.mauritzz.thesis.tinkapi.provider.rpc.entity;
+package se.kth.mauritzz.thesis.tinkapi.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
+import se.kth.mauritzz.thesis.annotations.JsonObject;
 
 import java.util.List;
 
+@JsonObject
 @Getter
 public class Field {
 

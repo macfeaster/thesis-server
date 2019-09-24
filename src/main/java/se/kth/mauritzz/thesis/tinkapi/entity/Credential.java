@@ -1,8 +1,11 @@
-package se.kth.mauritzz.thesis.tinkapi.rpc.entity;
+package se.kth.mauritzz.thesis.tinkapi.entity;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import se.kth.mauritzz.thesis.annotations.JsonObject;
 
+import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 @JsonObject
@@ -26,4 +29,16 @@ public class Credential {
     private String type;
     private long updated;
     private String userId;
+
+    public List<Field> getSupplementalFields() {
+        if (supplementalInformation == null || status == Status.AWAITING_MOBILE_BANKID_AUTHENTICATION)
+            return List.of();
+
+        try {
+            return List.of(new ObjectMapper().readValue(supplementalInformation, Field[].class));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
