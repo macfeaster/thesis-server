@@ -43,7 +43,10 @@
                 <span th:text="${credential.providerName}"></span><br />
                 <small class="text-muted" th:text="${credential.id}"></small>
             </td>
-            <td th:text="${credential.status}"></td>
+            <td>
+                <span th:text="${credential.status}"></span><br />
+                <small class="text-muted" th:text="${credential.updated}"></small>
+            </td>
             <td th:text="${credential.statusPayload}"></td>
             <td>
                 <a class="btn btn-lax btn-sm" th:href="@{/manage/refresh/{id}(id=${credential.id})}">Refresh</a>

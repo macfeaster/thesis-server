@@ -1,10 +1,14 @@
 package se.kth.mauritzz.thesis.tinkapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import se.kth.mauritzz.thesis.annotations.JsonObject;
+import se.kth.mauritzz.thesis.tinkapi.provider.ProviderRepository;
+import se.kth.mauritzz.thesis.util.DateUtils;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -30,6 +34,7 @@ public class Credential {
     private long updated;
     private String userId;
 
+    @JsonIgnore
     public List<Field> getSupplementalFields() {
         if (supplementalInformation == null || status == Status.AWAITING_MOBILE_BANKID_AUTHENTICATION)
             return List.of();
@@ -40,5 +45,15 @@ public class Credential {
             e.printStackTrace();
             return null;
         }
+    }
+
+    @JsonIgnore
+    public boolean isAuto() {
+        return ProviderRepository.autoProviders.contains(providerName);
+    }
+
+    @JsonIgnore
+    public LocalDateTime getUpdated() {
+        return DateUtils.getDateTime(statusUpdated);
     }
 }

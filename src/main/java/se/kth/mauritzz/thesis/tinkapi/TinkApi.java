@@ -8,7 +8,7 @@ import se.kth.mauritzz.thesis.models.entities.Transaction;
 import se.kth.mauritzz.thesis.tinkapi.entity.Credential;
 import se.kth.mauritzz.thesis.tinkapi.provider.ProviderRepository;
 import se.kth.mauritzz.thesis.tinkapi.provider.rpc.ProviderList;
-import se.kth.mauritzz.thesis.tinkapi.provider.rpc.entity.TransactionEntity;
+import se.kth.mauritzz.thesis.tinkapi.entity.TransactionEntity;
 import se.kth.mauritzz.thesis.tinkapi.rpc.AddSupplementalRequest;
 import se.kth.mauritzz.thesis.tinkapi.rpc.CreateCredentialRequest;
 import se.kth.mauritzz.thesis.tinkapi.rpc.CredentialList;

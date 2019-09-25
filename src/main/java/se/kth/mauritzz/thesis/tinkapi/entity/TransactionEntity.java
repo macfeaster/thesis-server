@@ -1,13 +1,12 @@
-package se.kth.mauritzz.thesis.tinkapi.provider.rpc.entity;
+package se.kth.mauritzz.thesis.tinkapi.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import se.kth.mauritzz.thesis.annotations.JsonObject;
 import se.kth.mauritzz.thesis.models.entities.Transaction;
+import se.kth.mauritzz.thesis.util.DateUtils;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 
 @JsonObject
 @Data
@@ -42,14 +41,10 @@ public class TransactionEntity {
                 .amount(originalAmount)
                 .description(originalDescription)
                 .cleanedDescription(formattedDescription)
-                .time(getDateTime())
+                .time(DateUtils.getDateTime(originalDate))
                 .pending(pending)
                 .createdAt(LocalDateTime.now())
                 .build();
     }
 
-    @JsonIgnore
-    public LocalDateTime getDateTime() {
-        return LocalDateTime.ofInstant(Instant.ofEpochMilli(originalDate), ZoneId.systemDefault());
-    }
 }
