@@ -1,7 +1,7 @@
 # Mauritz's Thesis Project
 
 This application is part of my CS master's thesis on _financial transaction deduplication_ at [Tink AB](https://tink.com).
-It creates users in Tink's backend using Tink's Enterprise API, and then schedules a Spring Batch job to 
+It creates users in Tink's backend using Tink's Enterprise API, and then schedules a Spring Batch job to scrape and save transactions from all users into SQL.
 
 Spring Boot + Security + MVC + Data JPA + Batch
 
